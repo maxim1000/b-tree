@@ -69,6 +69,7 @@ void performanceTest(const Set &prototype,const std::string &title)
         for(int c=0;c<count;++c)
             values.push_back(random(engine));
         auto set=prototype;
+        int sum=0;//just to avoid optimizations
         {//inserting
             const auto start=std::chrono::steady_clock::now();
             for(auto value:values)
@@ -81,7 +82,7 @@ void performanceTest(const Set &prototype,const std::string &title)
         {//searching
             const auto start=std::chrono::steady_clock::now();
             for(auto value:values)
-                contains(set,value);
+                sum+=contains(set,value);
             const auto finish=std::chrono::steady_clock::now();
             const double seconds=
                 std::chrono::duration_cast<std::chrono::milliseconds>(finish-start).count()/1000.;
@@ -96,6 +97,7 @@ void performanceTest(const Set &prototype,const std::string &title)
                 std::chrono::duration_cast<std::chrono::milliseconds>(finish-start).count()/1000.;
             std::cout<<"\t"<<seconds/count*1000000;
         }
+        std::cout<<"\t"<<sum;
         std::cout<<std::endl;
     }
 }
